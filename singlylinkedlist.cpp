@@ -1,52 +1,74 @@
 #include <iostream>
 using namespace std;
 
-class Node
+struct Node
 {
-public:
     int data;
     Node *next;
 
-    Node(int val)
+    Node(int data)
     {
-        data = val;
+        this->data = data;
         next = NULL;
     }
 };
-void Insertnode(Node *&head, int val)
+
+Node *head = NULL;
+
+void InsertNode(Node *&head, int data)
 {
-    Node* n = new Node(val);
-    if (head == NULL)
-    {
-        head = n;
-        return;
-    }
-    Node *temp = head;
-    while (temp->next!=NULL)
-    {
-        temp = temp->next;
-    }
-    temp->next = n;
+    Node *n = new Node(data);
+    n->next = head;
+    head = n;
 }
-void displaynode(Node *head)
+
+void InsertMiddle(Node *&head, int data, int pos)
 {
-    Node *temp = head;
-    while (temp != NULL)
+    if (pos == 0)
     {
-        cout <<temp->data <<"->";
-        temp = temp->next;
-        
+        InsertNode(head, data);
     }
+    else
+    {
+        Node *temp = head;
+        for (int i = 0; i < pos - 1; i++)
+        {
+            Node *n = new Node(data);
+            n->next = temp->next;
+            temp->next = n;
+        }
+    }
+}
+
+void InsertEnd(Node* &head , int data){
+
+    Node *n = new Node(data);
+   Node* temp= head;
+   while(temp->next!=NULL){
+       temp = temp->next;
+   }
+   temp->next = n;
     
-    cout << endl;
+}
+void PrintNode(Node *head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << "-->";
+        head = head->next;
+    }
+    cout << "NULL" << endl;
 }
 int main()
 {
-    Node *head = NULL;
-    Insertnode(head,1);
-    Insertnode(head,2);
-    Insertnode(head,3);
-    displaynode(head);
 
-    return 0;
+    Node *head = NULL;
+    InsertNode(head, 5);
+    InsertNode(head, 4);
+    InsertNode(head, 3);
+    InsertNode(head, 2);
+    InsertNode(head, 1);
+    InsertMiddle(head, 34, 2);
+    InsertEnd(head ,22);
+    PrintNode(head);
 }
